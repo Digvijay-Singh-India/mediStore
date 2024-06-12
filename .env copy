@@ -1,0 +1,9 @@
+STORE = S2024001
+WEBSITE = http://localhost:5173
+MONGO_CONNECTION_STRING=mongodb+srv://mygift2020y:sushilkumar@cluster0.2yvmphh.mongodb.net/mediStore?retryWrites=true&w=majority&appName=Cluster0
+MONGO_CONNECTION_STRING=mongodb://localhost:27017/mediStore
+CRYPTO_KEY=jhgjhjgghjghjhghihjjyjyjjhgjgjgjjjhjkhmhkhk
+paymentViewUrl = development
+PAYMENT_VIEW_URL=http://localhost:3000/paymentImg/
+ASSETS_URL=http://localhost:3000/
+NODE_ENV = development
