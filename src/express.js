@@ -14,16 +14,17 @@ const https = require('https');
 // const storeAuth = require('./middlewares/storeAuth');
 const { default: rateLimit } = require('express-rate-limit');
 
-var options = {
- key: fs.readFileSync('/home/mint/Documents/https_ssl.key'),
- cert: fs.readFileSync('/home/mint/Documents/https_ssl.crt'),
-};
+// var options = {
+//  key: fs.readFileSync('/home/mint/Documents/https_ssl.key'),
+//  cert: fs.readFileSync('/home/mint/Documents/https_ssl.crt'),
+// };
 const port = process.env.PORT || 3000;
 
 // const server = http.createServer(options, app);
 
 const app = express();
-const server = http.createServer(options, app);
+const server = http.createServer(app);
+// const server = http.createServer(options, app);
 const limiter = rateLimit({
  windowMs: 1000,
  max: 20,

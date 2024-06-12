@@ -1,6 +1,6 @@
 const Config = require('../../src/Config');
 const { Image, Store, copy } = require('../../src/db');
-const paymentViewUrl = Config.get('paymentViewUrl');
+const paymentViewUrl = Config.get('assetsUrl') + 'mg/paymentimg';
 async function paymentView(req, res) {
  try {
   const { uid = '', id = '' } = req.query;

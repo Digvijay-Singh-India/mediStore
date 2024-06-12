@@ -19,6 +19,7 @@ async function userLogin(req, res, next) {
 
   let user = await User.findOne({
    store_id: req.store.id,
+   role: 'Customer',
    mobile: mob,
    password: hp,
   });

@@ -2,12 +2,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const __myConfig = {
- store: process.env.STORE,
  website: process.env.WEBSITE,
  mongo_connection_string: process.env.MONGO_CONNECTION_STRING,
  node_env: process.env.NODE_ENV,
  cryptoKey: process.env.CRYPTO_KEY,
- paymentViewUrl: process.env.PAYMENT_VIEW_URL,
  assetsUrl: process.env.ASSETS_URL,
  node_env: process.env.NODE_ENV,
 };
