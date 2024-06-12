@@ -1,0 +1,182 @@
+// routes/subscriptions.js
+
+const express = require('express');
+const router = express.Router();
+const Subscription = require('../models/Subscription'); // Your MongoDB model
+
+// Middleware to validate user authentication (e.g., using JWT)
+const authenticateUser = require('../middleware/authenticateUser');
+
+// Renew subscription
+router.post('/renew-subscription', authenticateUser, async (req, res) => {
+ try {
+  const userId = req.user.id; // Extract user ID from authentication middleware
+  const subscription = await Subscription.findOne({ userId });
+
+  if (!subscription) {
+   return res.status(404).json({ message: 'Subscription not found' });
+  }
+
+  // Extend subscription duration (e.g., add 3 months)
+  // Update subscriptionEndDate in your MongoDB
+
+  return res.status(200).json({ message: 'Subscription renewed successfully' });
+ } catch (error) {
+  console.error('Error renewing subscription:', error);
+  res.status(500).json({ message: 'Internal server error' });
+ }
+});
+
+module.exports = router;
+// components/SubscriptionRenewalButton.js
+
+import React, { useState } from 'react';
+import axios from 'axios'; // Use Axios for API requests
+
+const SubscriptionRenewalButton = () => {
+ const [renewing, setRenewing] = useState(false);
+
+ const handleRenewal = async () => {
+  try {
+   setRenewing(true);
+   // Make an API request to your backend route
+   await axios.post('/api/renew-subscription');
+   // Handle success (e.g., show a success message)
+  } catch (error) {
+   console.error('Error renewing subscription:', error);
+   // Handle error (e.g., show an error message)
+  } finally {
+   setRenewing(false);
+  }
+ };
+
+ return (
+  <button onClick={handleRenewal} disabled={renewing}>
+   {renewing ? 'Renewing...' : 'Renew Subscription'}
+  </button>
+ );
+};
+
+export default SubscriptionRenewalButton;
+
+// models/Subscription.js
+
+const mongoose = require('mongoose');
+
+const subscriptionSchema = new mongoose.Schema({
+ userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+ subscriptionType: { type: String, enum: ['3 months', '6 months', '1 year'] },
+ subscriptionStartDate: { type: Date, required: true },
+ subscriptionEndDate: { type: Date, required: true },
+ autoRenewal: { type: Boolean, default: true },
+ // Other relevant fields (e.g., payment details)
+});
+
+const Subscription = mongoose.model('Subscription', subscriptionSchema);
+
+module.exports = Subscription;
+
+//copilot end
+
+//gemini
+const mongoose = require('mongoose');
+
+const planSchema = new mongoose.Schema({
+ planId: {
+  type: String,
+  required: true,
+  unique: true,
+ },
+ amount: {
+  type: Number,
+  required: true,
+ },
+ duration: {
+  // Duration in months
+  type: Number,
+  required: true,
+ },
+});
+
+module.exports = mongoose.model('Plan', planSchema);
+
+const mongoose = require('mongoose');
+const planSchema = require('./plan');
+
+const userSchema = new mongoose.Schema({
+ email: {
+  type: String,
+  required: true,
+  unique: true,
+ },
+ password: {
+  type: String,
+  required: true,
+ },
+ name: {
+  type: String,
+ },
+ plan: {
+  type: planSchema,
+  required: true,
+ },
+ isActive: {
+  type: Boolean,
+  default: true,
+ },
+});
+
+userSchema.pre('save', function (next) {
+ // Calculate and update endDate before saving
+ if (this.plan && this.plan.startDate) {
+  this.plan.endDate = new Date(
+   this.plan.startDate.getTime() + this.plan.duration * 30 * 24 * 60 * 60 * 1000
+  );
+ }
+ next();
+});
+
+module.exports = mongoose.model('User', userSchema);
+
+const User = require('./user');
+const Plan = require('./plan');
+
+// ... other controller functions (signup, login, etc.)
+
+// Function to handle plan renewal logic
+async function renewPlan(userId) {
+ try {
+  const user = await User.findById(userId);
+  if (!user) {
+   throw new Error('User not found');
+  }
+
+  // Check if renewal is needed
+  if (user.plan.endDate < new Date()) {
+   // Offer renewal options to user (handle in frontend)
+   return { needsRenewal: true };
+  }
+
+  // Update plan details for renewal
+  user.plan.startDate = new Date();
+  user.plan.endDate = calculateNewEndDate(user.plan.duration);
+  await user.save();
+
+  return { renewalSuccessful: true };
+ } catch (err) {
+  console.error(err);
+  return { error: err.message };
+ }
+}
+
+// Function to calculate new end date based on duration
+function calculateNewEndDate(duration) {
+ return new Date(Date.now() + duration * 30 * 24 * 60 * 60 * 1000);
+}
+
+module.exports = {
+ // ... other controller exports
+ renewPlan,
+};
+
+///chatgpt
