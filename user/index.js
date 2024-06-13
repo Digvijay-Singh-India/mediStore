@@ -25,10 +25,11 @@ const passReset = require('./route/passReset');
 const getProfile = require('./route/getProfile');
 const addressCountry = require('./route/addressCountry');
 const clintIndexedDb = require('./route/cdbProductName');
+const getstore = require('./route/getStore');
 // const express = require('express');
 
 //account
-
+user.get('/store', getstore);
 user.get('/cdb-product-name', clintIndexedDb);
 user.get('/address-country', addressCountry);
 

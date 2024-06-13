@@ -128,7 +128,7 @@ app.use((err, req, res, next) => {
 let host = '192.168.43.67:3000';
 
 // Start the server,host
-server.listen(() => {
+server.listen(port, () => {
  console.log(`Server is running on http://localhost:${port}`);
 });
 module.exports = app;
