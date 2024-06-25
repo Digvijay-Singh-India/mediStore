@@ -1,6 +1,6 @@
 const { Store, copy } = require('../../src/db');
 
-async function getstore(req, res, next) {
+async function getStore(req, res, next) {
  try {
   let result = await Store.findOne({ store_id: req.store.id }).select([
    'name',
@@ -8,16 +8,18 @@ async function getstore(req, res, next) {
    'address',
    'pincode',
    'contact',
+   'licenseNumber',
+   'gstNumber',
    'logo',
    'img',
    'active',
-   'setting',
    {
     setting: {
      minOrderValue: true,
      minOdrValApplyDelCharge: true,
      deliveryCharge: true,
      payMethod: true,
+     maxOneProToCard: true,
     },
    },
   ]);
@@ -28,10 +30,11 @@ async function getstore(req, res, next) {
   result2.minOdrValApplyDelCharge = result.setting.minOdrValApplyDelCharge;
   result2.deliveryCharge = result.setting.deliveryCharge;
   result2.payMethod = result.setting.payMethod;
+  result2.maxOneProToCard = result.setting.maxOneProToCard;
   delete result2.setting;
   return res.json({ st: true, res: result2 });
  } catch (error) {
   return next(error);
  }
 }
-module.exports = getstore;
+module.exports = getStore;

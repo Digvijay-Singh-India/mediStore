@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Store = require('./store.module');
+const Page = require('./page.module');
 const Coupon = require('./coupon.module');
 const User = require('./user.module');
 const Order = require('./order.module');
@@ -80,6 +81,7 @@ module.exports = {
  copy,
  idSetter,
  Store,
+ Page,
  Coupon,
  User,
  Order,

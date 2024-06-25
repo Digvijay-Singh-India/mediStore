@@ -1,14 +1,14 @@
 const fs = require('fs');
 
 const Config = require('../../src/Config');
-const { Product } = require('../../src/db');
+// const { Product } = require('../../src/db');
 const processImage = require('../../src/utility/processImage');
 const cloudinaryUpload = require('../../src/utility/cloudinaryUpload');
 
-async function uploadProductImg(req, res, next) {
+async function PrescriptionUpload(req, res, next) {
  try {
-  const dataURL = req.body.img;
-  const productId = req.body.productId;
+  const dataURL = req.body.data;
+  const uid = req.body.uid;
   //const order_id = req.body.order_id;
 
   const matches = dataURL.match(/^data:image\/(png|jpeg|jpg|webp);base64,/);
@@ -16,10 +16,10 @@ async function uploadProductImg(req, res, next) {
 
   let base64String = dataURL.split(',')[1];
 
-  let url = productId + '-' + new Date().getTime() + '.' + 'webp';
+  let url = uid + '-' + new Date().getTime() + '.' + 'webp';
   // let url = productId + '-' + new Date().getTime() + '.' + extension;
 
-  const filePath = 'assets/img/product/' + url;
+  const filePath = 'assets/img/prescription/' + url;
 
   const binaryData = Buffer.from(base64String, 'base64');
 
@@ -28,26 +28,27 @@ async function uploadProductImg(req, res, next) {
   let h = await processImage({
    inputPath: binaryData,
    outputPath: filePath,
-   width: 300,
-   height: 200,
+   // width: 300,
+   // height: 200,
   });
   console.log(h);
 
-  let uploaded = await cloudinaryUpload(filePath, 'product');
+  let uploaded = await cloudinaryUpload(filePath, 'prescription');
 
-  const imgUrl = uploaded || Config.get('assetsUrl') + 'img/product/' + url;
+  const imgUrl =
+   uploaded || Config.get('assetsUrl') + 'img/prescription/' + url;
   // const imgUrl = Config.get('assetsUrl') + 'img/product/' + url;
 
-  if (productId) {
-   let update = await Product.updateOne(
-    { store_id: req.user.sid, sku_id: productId },
-    {
-     $set: {
-      image_url: imgUrl,
-     },
-    }
-   );
-  }
+  // if (productId) {
+  //  let update = await Product.updateOne(
+  //   { store_id: req.user.sid, sku_id: productId },
+  //   {
+  //    $set: {
+  //     image_url: imgUrl,
+  //    },
+  //   }
+  //  );
+  // }
   /*
   let imageUrl = await Image.create({
    store_id: req.store.id,
@@ -68,11 +69,11 @@ async function uploadProductImg(req, res, next) {
 */
   return res.json({
    st: true,
-   url: imgUrl,
+   res: imgUrl,
   });
  } catch (error) {
   next(error);
   //return res.json({ st: false });
  }
 }
-module.exports = uploadProductImg;
+module.exports = PrescriptionUpload;

@@ -25,11 +25,15 @@ const passReset = require('./route/passReset');
 const getProfile = require('./route/getProfile');
 const addressCountry = require('./route/addressCountry');
 const clintIndexedDb = require('./route/cdbProductName');
-const getstore = require('./route/getStore');
+const getStore = require('./route/getStore');
+const getPage = require('./route/getPage');
+const getProduct = require('./route/getProduct');
+const PrescriptionUpload = require('./route/prescriptionUpload');
 // const express = require('express');
 
-//account
-user.get('/store', getstore);
+// account
+user.get('/store', getStore);
+user.get('/get-page', getPage);
 user.get('/cdb-product-name', clintIndexedDb);
 user.get('/address-country', addressCountry);
 
@@ -43,11 +47,14 @@ user.post('/reset-pass-token-verify', passResetTokenVerify);
 
 user.post('/reset-pass', passReset);
 
-user.post('/get-profile', getProfile);
+user.get('/get-profile', getProfile);
 
 user.post('/coupon-validator', couponValidate);
 
 user.get('/search', searchProducts);
+
+user.get('/get-product', getProduct);
+
 user.post('/add-order', addOrder);
 user.get('/get-orders', getOrders);
 user.get('/get-order', getOrder);
@@ -56,23 +63,10 @@ user.get('/generate-pay-link', generatePayLink);
 user.get('/payment-view', paymentView);
 user.get('/get-transaction', getTransaction);
 
+user.post('/prescription-upload', PrescriptionUpload);
+
 user.get('/', (req, res) => {
- res.json({
-  message: 'Home Page',
- });
+ res.json({ message: 'Home Page' });
 });
 
-// user.use((err, req, res, next) => {
-//  // Your error handling logic
-//  console.log(err);
-//  res.status(500).json({ error: err.message || 'Internal Server Error' });
-// });
-
-//kkjhk
-
-//const query = { store_id: 'S2024001', name: { $regex: /^a/i } }; // { store_id: 'S2024001' }
-// const query = { age: { $gte: 30 } };
-// setTimeout(() => {
-//  console.log(find('product', query, { skip: 0 }).length);
-// }, 3000);
 module.exports = user;

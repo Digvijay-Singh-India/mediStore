@@ -4,8 +4,9 @@ const storeRoute = require('./store');
 const storeAuth = require('./src/middlewares/storeAuth');
 
 app.get('/', (req, res) => {
+
  res.json({
-  message: 'Home Page',
+  message: 'Home Page 35',
  });
 });
 app.use('/user', storeAuth);

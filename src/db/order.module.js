@@ -29,7 +29,7 @@ const amountSchema = {
 const amountPaidSchema = {
  method: {
   type: String,
-  enum: ['UPI', 'COD'],
+  enum: ['UPI', 'COD','Net Banking'],
   required: true,
   //default: 'COD',
  },
@@ -179,10 +179,12 @@ const orderSchema = new Schema(
    enum: [
     'Pending',
     'Processing',
-    'Pick up for delivery',
+'Shipped'
+,
     'Rejected',
     'Approved',
     'Delivered',
+'Returned',
     'Canceled',
    ],
    default: 'Pending',
@@ -199,7 +201,7 @@ const orderSchema = new Schema(
   delivery: {
    status: {
     type: String,
-    enum: ['Pending', 'Delivered', 'Returned'],
+    enum: ['Pending','Shipped', 'Delivered', 'Returned'],
     default: 'Pending',
    },
    tracking_id: {

@@ -33,4 +33,13 @@ const compressionQuality = 80; // Adjust as needed (0-100)
 //  targetHeight,
 //  compressionQuality
 // );
+
+// processImage({
+//  inputPath: 'assets/img/page/Designer (5).png',
+//  outputPath: 'assets/img/page/Designer5.webp',
+//  quality: 50,
+//  // targetWidth,
+//  // targetHeight,
+//  // compressionQuality
+// });
 module.exports = processImage;
