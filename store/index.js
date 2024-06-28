@@ -6,6 +6,7 @@ const searchProducts = require('./route/searchProducts');
 const addOrder = require('./route/addOrder');
 const getOrders = require('./route/getOrders');
 const getOrder = require('./route/getOrder');
+const getPaymentScreenShort = require('./route/getPaymentScreenShort');
 const uploadPayImg = require('./route/uploadPayImg');
 const couponValidate = require('./route/couponValidate');
 const generatePayLink = require('./route/generatePayLink');
@@ -32,6 +33,7 @@ const getCustomer = require('./route/getCustomer');
 
 const memoDb = require('../src/utility/memoDb');
 const uploadProductImg = require('./route/uploadProductImage');
+const updateOrder = require('./route/updateOrder');
 
 store.post('/indexeddb', userAuth, indexedDb);
 
@@ -86,6 +88,11 @@ store.get('/get-order', userAuth, getOrder);
 store.post('/upload-payment-img', uploadPayImg);
 store.get('/generate-pay-link', generatePayLink);
 store.get('/payment-view', paymentView);
+
+store.get('/get-payment-screen-short', userAuth, getPaymentScreenShort);
+
+store.post('/update-order', userAuth, updateOrder);
+
 store.get('/get-transaction', getTransaction);
 
 store.get('/', (req, res) => {

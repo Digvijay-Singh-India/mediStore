@@ -112,6 +112,7 @@ async function addOrder(req, res, next) {
     order_date: new Date(),
     items: item,
     coupon: card.coupon,
+    prescriptions: req.body.prescriptions,
     amount: {
      subtotal: (subtotal * 1).toFixed(2),
      discount: (dis * 1).toFixed(2),

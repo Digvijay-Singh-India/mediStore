@@ -1,7 +1,7 @@
-const { Product } = require('../../src/db');
+const { Product, copy } = require('../../src/db');
 const { get, set } = require('../../src/middlewares/myredish');
 
-async function searchProducts(req, res) {
+async function searchProducts(req, res, next) {
  try {
   let { q = '', skip = 0, limit = 10 } = req.query;
   limit = limit > 10 ? 10 : limit;
@@ -23,6 +23,7 @@ async function searchProducts(req, res) {
     name: 1,
     sku_id: 1,
     pack_size_label: 1,
+    rx_required: 1,
     price: 1,
     image_url: 1,
    });
@@ -33,7 +34,7 @@ async function searchProducts(req, res) {
    st: true,
    nextId,
    previousId,
-   res: results,
+   res: copy(results),
   });
 
   //return res.json({ msg: 'hgj' });
@@ -41,9 +42,10 @@ async function searchProducts(req, res) {
    st: true,
    nextId,
    previousId,
-   res: results,
+   res: copy(results),
   });
  } catch (e) {
+  return next(e);
   console.log(e);
   res.json({
    st: false,

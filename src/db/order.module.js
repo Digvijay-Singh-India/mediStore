@@ -29,7 +29,7 @@ const amountSchema = {
 const amountPaidSchema = {
  method: {
   type: String,
-  enum: ['UPI', 'COD','Net Banking'],
+  enum: ['UPI', 'COD', 'Net Banking'],
   required: true,
   //default: 'COD',
  },
@@ -159,7 +159,10 @@ const orderSchema = new Schema(
     default: '',
    },
   },
-
+  prescriptions: {
+   type: Array,
+   default: [],
+  },
   amount: amountSchema,
   address: addressSchema,
 
@@ -179,12 +182,11 @@ const orderSchema = new Schema(
    enum: [
     'Pending',
     'Processing',
-'Shipped'
-,
+    'Shipped',
     'Rejected',
     'Approved',
     'Delivered',
-'Returned',
+    'Returned',
     'Canceled',
    ],
    default: 'Pending',
@@ -201,7 +203,7 @@ const orderSchema = new Schema(
   delivery: {
    status: {
     type: String,
-    enum: ['Pending','Shipped', 'Delivered', 'Returned'],
+    enum: ['Pending', 'Shipped', 'Delivered', 'Returned'],
     default: 'Pending',
    },
    tracking_id: {
@@ -213,15 +215,7 @@ const orderSchema = new Schema(
     default: '',
    },
   },
-
-  // updatedAt: {
-  // 	type: Date,
-  // 	default: Date.now
-  // },
-  // createdAt: {
-  // 	type: Date,
-  // 	default: Date.now
-  // }
+  todo: {},
  },
  {
   timestamps: true,

@@ -9,6 +9,7 @@ async function link(store_id, amount, order_id) {
  try {
   let payLink = {};
   let storeSetting = await store(store_id);
+  let website = storeSetting.url;
   storeSetting = storeSetting.setting;
 
   if (storeSetting.upi.AutoVerify === true) {
@@ -16,7 +17,7 @@ async function link(store_id, amount, order_id) {
    payLink.link = `upi://pay?cu=INR&tn=${order_id}&pa=${
     storeSetting.upi.upi_id
    }&pn=${storeSetting.upi.name}&am=${amount}&tr=%20&ref=${
-    config.get('website') + '/order?id=' + order_id
+    website + '/order?id=' + order_id
    }`;
   } else {
    payLink.type = 'manual';
